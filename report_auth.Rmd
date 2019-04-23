@@ -8,9 +8,7 @@ params:
 
 ```{r setup, include=FALSE, message=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
-source('~/collaborator/R/orcid_pull_name.R')
-
+source("~/authorship_app/orcid_pull_name.R")
 name_orcid <- orcid_pull_name(params$orcid, full_name = F)
 ```
 

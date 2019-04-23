@@ -5,6 +5,8 @@ library(collaborator);library(jsonlite)
 auth <- readRDS("~/StarSurg/RECON/recon_shiny/authorship/recon_authorship.rds") %>%
   dplyr::select(country,hospital, cen_con, name, orcid, role, period, team)
 
+
+
 # Build UI
 ui <- fluidPage(titlePanel("STARSurg RECON Authorship"),
                 tabsetPanel(type = "tabs", 

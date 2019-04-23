@@ -14,16 +14,11 @@ header-includes:
 ---
 ```{r setup, include=FALSE, fig.align="center"}
 knitr::opts_chunk$set(echo = TRUE)
-
-source('~/collaborator/R/orcid_pull_name.R')
-
+source("~/authorship_app/orcid_pull_name.R")
 ```
 
 ```{r recon_logo, echo=FALSE, message=FALSE, fig.align="center"}
 library(dplyr); library(magick)
-# imager::load.image("https://raw.githubusercontent.com/kamclean/starsurg/master/recon_logo.png") %>%
-#  as.raster() %>%
-#  plot()
 
 magick::image_read("https://raw.githubusercontent.com/kamclean/starsurg/master/recon_logo.png") %>%
   magick::image_scale("600")
