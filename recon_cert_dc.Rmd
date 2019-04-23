@@ -1,0 +1,71 @@
+---
+output:
+  pdf_document:
+    latex_engine : pdflatex
+params:
+  orcid: ""
+  role: ""
+  hospital: ""
+  team: ""
+header-includes:
+- \usepackage[fontsize=11pt]{scrextend}
+- \pagenumbering{gobble} # stop autopage numbering
+  
+---
+```{r setup, include=FALSE, fig.align="center"}
+knitr::opts_chunk$set(echo = TRUE)
+
+source('~/collaborator/R/orcid_pull_name.R')
+
+```
+
+```{r recon_logo, echo=FALSE, message=FALSE, fig.align="center"}
+library(dplyr); library(magick)
+# imager::load.image("https://raw.githubusercontent.com/kamclean/starsurg/master/recon_logo.png") %>%
+#  as.raster() %>%
+#  plot()
+
+magick::image_read("https://raw.githubusercontent.com/kamclean/starsurg/master/recon_logo.png") %>%
+  magick::image_scale("600")
+```
+
+\centering
+
+## This is to certify that
+
+# **`r orcid_pull_name(params$orcid, initials=FALSE)$full_name_orcid`**
+
+(ORCID: `r params$orcid`)
+
+## was a **`r params$role`** in the **RECON audit** at
+
+# **`r params$hospital`**
+
+## within the **`r params$team`** team
+
+\raggedright
+
+Displaying skills in: 
+  
+- Identifying and recruiting patients to a national database.
+
+- Determining accurate pre-operative, operative and follow up data from clinical notes.
+
+- Collaboration with other members of their "mini-team" to collect data.
+
+\centering
+
+&nbsp;
+
+With warm thanks from the
+
+**Student Audit and Research in Surgery (STARSurg) Steering Committee**
+
+Generated on **`r format(Sys.time(), '%d %B %Y')`**
+
+***
+```{r recon_sponsors, echo=FALSE, message=FALSE, fig.align="center"}
+library(dplyr); library(magick)
+magick::image_read("https://raw.githubusercontent.com/kamclean/starsurg/master/recon_sponsors.png") %>%
+  magick::image_scale("800")
+```

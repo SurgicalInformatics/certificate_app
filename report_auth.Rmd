@@ -1,0 +1,79 @@
+---
+title: "Authorship List"
+output: html_document
+params:
+  orcid: ""
+  
+---
+
+```{r setup, include=FALSE, message=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+source('~/collaborator/R/orcid_pull_name.R')
+
+name_orcid <- orcid_pull_name(params$orcid, full_name = F)
+```
+
+This is the authorship list that will be used for all publications that arise from RECON data. We will disseminate this for all collaborators to review prior to a manuscript being submitted for peer-review. 
+
+**It is the responsibility of collaborators to check the list below thoroughly to ensure all your details are correct, and to take appropriate action (as below) prior to the deadline specified for that manuscript**. Any changes requested after this point may not be possible to include.
+
+&nbsp;
+
+#### `r ifelse(is.na(name_orcid$initial_orcid)==T|is.na(name_orcid$initial_orcid)==T|is.na(name_orcid$initial_orcid)==T, "The ORCID you have supplied to your regional lead has not allowed us to access your full name in order to be displayed on the authorship list (<b>see troubleshooting below</b>)", paste0("Your name will be displayed on the authorship list below as <u><b>", name_orcid$initial_orcid, "</b></u>"))`
+
+***
+
+### **Troubleshooting:**
+
+- **Why did I get the error message "<i>The ORCID you have supplied to your regional lead has not allowed us to access your full name in order to be displayed on the authorship list</i>"**
+
+  - We are only using the publically available information on ORCID (names) to update the authorship list.
+  
+  - If you have not set this information to be publically accessable, or you have not listed your first or last name then it will not be possible to list you as a pubmed-citable collaborator on RECON.
+  
+  - You can search for what is pubically accessible via your ORCID by searching on the [**ORCID website**](https://orcid.org/) using your orcid, and sign-in to amend your ORCID accordingly.
+  
+&nbsp;
+
+- **My name is spelled incorrectly**:
+
+  - The names shown are derived from your ORCID. You can amend your name there to reflect your desired spelling / number of initials (a maximum 3 initials will be displayed in addition to your last name).
+  
+  - Please note the list is updated on a regular basis, however changes to ORCID may not immediately be reflected below.
+  
+  - Last names on ORCID in **all** uppercase are not accepted and will be amended to display the *first* letter capitalised only.
+
+&nbsp;
+
+- **My name isn't shown below**:
+
+  1. Please search the list thoroughly - if you cannot find your last name, then search for your hospital first (CONTROL+F).
+
+  2. Ensure your ORCID is set to public access to ensure we can derive your name from the ORCID registry.
+
+  3. If you still cannot identify your name, then contact your regional lead in the first instance.
+
+&nbsp;
+
+- **Centre details are incorrect**. Please contact your regional lead to request an amendment.
+
+&nbsp;
+
+- **There is a name included that shouldn't be**. Please contact your regional lead or starsurg.redcap@gmail.com to highlight.
+
+&nbsp;
+
+***
+
+### **RECON Authorship List:**
+```{r authlist, message=FALSE, echo=FALSE}
+library(dplyr)
+readRDS("~/StarSurg/RECON/recon_shiny/authorship/recon_authorship.rds") %>%
+  dplyr::select(country, hospital, cen_con, "name" = name_auth, orcid, role, period, team) %>% 
+  dplyr::arrange(country, hospital, name) %>%
+  dplyr::distinct(cen_con, name, orcid, role) %>%
+  dplyr::mutate(name = ifelse(orcid==params$orcid, name_orcid$initial_orcid, name)) %>%
+  collaborator::report_auth(.,group = "cen_con", subdivision = "role")
+                              
+```
